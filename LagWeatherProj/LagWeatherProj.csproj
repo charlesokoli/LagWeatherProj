@@ -17,7 +17,12 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+    <PackageReference Include="System.IO" Version="4.3.0" />
     <PackageReference Include="System.Net.Http" Version="4.1.4" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="txtFolder\" />
   </ItemGroup>
 
 </Project>

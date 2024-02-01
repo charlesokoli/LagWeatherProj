@@ -6,16 +6,17 @@ using System.Threading.Tasks;
 using Newtonsoft.Json.Linq;
 using LagWeatherProj.ViewModel;
 using Newtonsoft.Json;
-
+using System.IO;
 namespace LagWeatherProj.Pages
 {
     public class IndexModel : PageModel
     {
         private readonly ILogger<IndexModel> _logger;
-
-        public IndexModel(ILogger<IndexModel> logger)
+        private readonly IWebHostEnvironment _environment;
+        public IndexModel(ILogger<IndexModel> logger, IWebHostEnvironment environment)
         {
             _logger = logger;
+            _environment = environment;
         }
         [BindProperty]
         public ReportVm ReportVm { get; set; }
@@ -45,29 +46,33 @@ namespace LagWeatherProj.Pages
                         string data = await response.Content.ReadAsStringAsync();
                         JObject jsonData = JObject.Parse(data);
 
-                        // Extract details 
-                        var locationname = jsonData["location"]["name"].ToString();
-                        var region = jsonData["location"]["region"].ToString();
-                        var countryname = jsonData["location"]["country"].ToString();
-                        var lat = jsonData["location"]["lat"].ToString();
-                        var lon = jsonData["location"]["lon"].ToString();
-                        var tz_id = jsonData["location"]["tz_id"].ToString();
-                        var localtime_epoch = jsonData["location"]["localtime_epoch"].ToString();
-                        var localtime = jsonData["location"]["localtime"].ToString();
-
-
-                        //passing your data to your view model
-                        ReportVm = new ReportVm()
+                        if(jsonData.Count > 0)
                         {
-                            name = locationname,
-                            region = region,
-                            country = countryname,
-                            lat = lat,  
-                            lon = lon,
-                            tz_id = tz_id,
-                            localtime_epoch = localtime_epoch,
-                            localtime = localtime,  
-                        };
+                            // Extract details 
+                            var locationname = jsonData["location"]["name"].ToString();
+                            var region = jsonData["location"]["region"].ToString();
+                            var countryname = jsonData["location"]["country"].ToString();
+                            var lat = jsonData["location"]["lat"].ToString();
+                            var lon = jsonData["location"]["lon"].ToString();
+                            var tz_id = jsonData["location"]["tz_id"].ToString();
+                            var localtime_epoch = jsonData["location"]["localtime_epoch"].ToString();
+                            var localtime = jsonData["location"]["localtime"].ToString();
+
+
+                            //passing your data to your view model
+                            ReportVm = new ReportVm()
+                            {
+                                name = locationname,
+                                region = region,
+                                country = countryname,
+                                lat = lat,
+                                lon = lon,
+                                tz_id = tz_id,
+                                localtime_epoch = localtime_epoch,
+                                localtime = localtime,
+                            };
+                        }
+                        
                     }
                     else
                     {
@@ -90,8 +95,18 @@ namespace LagWeatherProj.Pages
             //var cityName = reportvm.name;
             string cityName = "Lagos";
             await LoadDataAsync(cityName);
-           // return Page();
 
+            if (ReportVm != null)
+            {
+                //sending to txt file 
+                var detail = JsonConvert.SerializeObject(ReportVm, Formatting.Indented);
+                var folderPath = Path.Combine(_environment.ContentRootPath, "txtFolder");
+                if (Directory.Exists(folderPath) == false)
+                    Directory.CreateDirectory(folderPath);
+                var filepathd = Path.Combine(folderPath, "weatherfile.txt");
+                System.IO.File.AppendAllText(filepathd, detail + Environment.NewLine);
+                // return Page();
+            }
         }
     }
 }
