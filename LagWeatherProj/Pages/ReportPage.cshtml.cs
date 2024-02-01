@@ -19,12 +19,6 @@ namespace LagWeatherProj.Pages
 
         public async Task LoadDataAsync()
         {
-            //Console.WriteLine("Enter the date for the weather report (yyyy-mm-dd):");
-            //string date = Console.ReadLine();
-
-            //Console.WriteLine("Enter the city name:");
-            //string cityName = Console.ReadLine();
-
             string cityName = "Lagos";
             string apiKey = "0a69a9a22e384d59a85101244240102";
             string apiUrl = $"http://api.weatherapi.com/v1/current.json?key={apiKey}&q={cityName}&aqi=no";
@@ -57,8 +51,6 @@ namespace LagWeatherProj.Pages
 
         public async Task<IActionResult> OnPostRepowsync(string toDo)
         {
-            var sm = toDo;
-            await LoadDataAsync();
             return Page();
 
         }
