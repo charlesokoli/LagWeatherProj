@@ -1,0 +1,70 @@
+﻿@page
+@model LagWeatherProj.Pages.IndexModel
+@{
+    ViewData["Title"] = "Report page";
+}
+<form  method="post">
+<div class="text-center">
+    <h1 class="display-4">Weather Report</h1>
+      <div class="col-md-12">
+             <div class="row">
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        <label class="req"> Enter City</label>
+                        <div class="input-group">
+                            <input type="hidden" />
+                            <input class="form-control" asp-for=ReportVm.name />
+                            <div class="input-group-append">
+                                <span class="input-group-btn">
+                                    <button type="submit" id="btnDownload" class="btn btn-success mr-2 btnSpin" >
+                                           Download
+                                        </button>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>                       
+            </div>  
+            <div class="row">
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        <label class="control-label">Region Name</label>
+                        <input type=text class=""  asp-for="ReportVm.region" readonly="readonly" />
+                    </div>
+                </div>
+                    <div class="col-sm-4">
+                    <div class="form-group">
+                        <label class="control-label">Country Name</label>
+                        <input type=text class=""  asp-for="ReportVm.country" readonly="readonly" />
+                    </div>
+                </div>
+                    <div class="col-sm-4">
+                    <div class="form-group">
+                        <label class="control-label">Latitude Name</label>
+                        <input type=text class=""  asp-for="ReportVm.lat" readonly="readonly" />
+                    </div>
+                </div>
+            </div>  
+             <div class="row">
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        <label class="control-label">Longitude Name</label>
+                        <input type=text class=""  asp-for="ReportVm.lon" readonly="readonly" />
+                    </div>
+                </div>
+                    <div class="col-sm-4">
+                    <div class="form-group">
+                        <label class="control-label">localtime_epoch</label>
+                        <input type=text class=""  asp-for="ReportVm.localtime_epoch" readonly="readonly" />
+                    </div>
+                </div>
+                    <div class="col-sm-4">
+                    <div class="form-group">
+                        <label class="control-label">Local time</label>
+                        <input type=text class=""  asp-for="ReportVm.localtime" readonly="readonly" />
+                    </div>
+                </div>
+            </div>  
+        </div>
+</div>
+</form>
